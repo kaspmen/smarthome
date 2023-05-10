@@ -15,12 +15,11 @@ from arduino_comms import arduino_pi_comms
 import time
 import threading
 import os
-import sys
 import serial
 from dotenv import load_dotenv
-import json
+import sqlite3
 from flask import Flask, render_template
-import window_sensor
+from data_collection import data_collection
 from flask_socketio import SocketIO
 
 load_dotenv()
@@ -63,29 +62,38 @@ def video_feed():
 
 @app.route('/sensor_data')
 def sensor_data():
-    recent_readings = window_sensor.get_recent_readings()
-    return render_template('sensor_data.html', readings=recent_readings)
+    # Connect to the database
+    conn = sqlite3.connect('sensor_data.db')
+    cursor = conn.cursor()
+
+    # Retrieve the data from the table
+    cursor.execute("SELECT * FROM sensor_data")
+    data = cursor.fetchall()
+
+    # Close the connection
+    conn.close()
+
+    # Pass the data to the template and render the HTML page
+    return render_template('sensor_data.html', data=data)
 
 if __name__ == '__main__':
-    # device USB name e.g. /dev/ttyACM0 or /dev/ttyUSB0 if connected
+    # Start the data collection thread
+    data_collection_thread = threading.Thread(target=data_collection)
+    data_collection_thread.daemon = True
+    data_collection_thread.start()
+
+    # Start the Flask application
     try:
         ser = serial.Serial('/dev/ttyUSB0', 57600, timeout=1)
         ser.reset_input_buffer()
-        
+
         if ser:
-            # Create a thread for parallel processing/ multithreading (camera stream and PIR Sensor trigger)
+            # Create a thread for parallel processing (camera stream and PIR Sensor trigger)
             arduino_comms_thread = threading.Thread(target=arduino_pi_comms, args=(ser, sensitivity_timer, current_time, pi_email, pi_app_password, pi_port, pi_host, gen_capture(pi_camera)))
             arduino_comms_thread.daemon = True
             arduino_comms_thread.start()
     except:
         print("Arduino not recognized")
 
-    try:
-        # Create a thread for running the data_collection
-        window_sensor_thread = threading.Thread(target=window_sensor.setup_window_sensor)
-        window_sensor_thread.daemon = True
-        window_sensor_thread.start()
-    except Exception as e: 
-        print(e)
-
     app.run(host='0.0.0.0', debug=False)
+

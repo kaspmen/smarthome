@@ -6,29 +6,36 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #f2f2f2;
         }
         
         h1 {
             text-align: center;
+            color: #333;
+            margin-bottom: 30px;
         }
         
         table {
-            border-collapse: collapse;
             width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
         }
         
         th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
         }
         
         th {
-            background-color: #f2f2f2;
-            text-align: left;
+            background-color: #f8f8f8;
+            font-weight: bold;
+            color: #555;
         }
         
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
+        tr:hover {
+            background-color: #f5f5f5;
         }
     </style>
 </head>
@@ -36,25 +43,27 @@
     <h1>Sensor Data</h1>
     <table>
         <tr>
-            <th>Sensor Name</th>
+            <th>Timestamp</th>
+            <th>Topic</th>
             <th>Temperature</th>
             <th>Humidity</th>
-            <th>Sleep State</th>
+            <th>Voltage</th>
             <th>Wakeup Reason</th>
-            <th>State</th>
             <th>Motion</th>
-            <th>Timestamp</th>  <!-- New column for timestamp -->
+            <th>State</th>
+            <th>Sleep State</th>
         </tr>
-        {% for reading in readings %}
+        {% for row in data %}
         <tr>
-            <td>Window Sensor</td>
-            <td>{{ reading.temperature }}</td>
-            <td>{{ reading.humidity }}</td>
-            <td>{{ reading.sleep_state }}</td>
-            <td>{{ reading.wakeup_reason }}</td>
-            <td>{{ reading.state }}</td>
-            <td>{{ reading.motion }}</td>
-            <td>{{ reading.timestamp }}</td>  <!-- Display the timestamp -->
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+            <td>{{ row[5] }}</td>
+            <td>{{ row[6] }}</td>
+            <td>{{ row[7] }}</td>
+            <td>{{ row[8] }}</td>
         </tr>
         {% endfor %}
     </table>
