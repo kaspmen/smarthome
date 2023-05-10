@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sensor Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sensor Data</h1>
+    <table>
+        <tr>
+            <th>Sensor Name</th>
+            <th>Temperature</th>
+            <th>Humidity</th>
+            <th>Sleep State</th>
+            <th>Wakeup Reason</th>
+            <th>State</th>
+            <th>Motion</th>
+            <th>Timestamp</th>  <!-- New column for timestamp -->
+        </tr>
+        {% for reading in readings %}
+        <tr>
+            <td>Window Sensor</td>
+            <td>{{ reading.temperature }}</td>
+            <td>{{ reading.humidity }}</td>
+            <td>{{ reading.sleep_state }}</td>
+            <td>{{ reading.wakeup_reason }}</td>
+            <td>{{ reading.state }}</td>
+            <td>{{ reading.motion }}</td>
+            <td>{{ reading.timestamp }}</td>  <!-- Display the timestamp -->
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
