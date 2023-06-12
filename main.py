@@ -35,7 +35,7 @@ pi_app_password = os.getenv('PI_APP_PASSWORD')
 pi_port = int(os.getenv('PI_PORT'))
 pi_host = os.getenv('PI_HOST')
 
-pi_camera = VideoCamera(flip=False) # flip pi camera if upside down.
+pi_camera = VideoCamera(flip=True) # flip pi camera if upside down.
 
 app = Flask(__name__)
 socketio = SocketIO(app)

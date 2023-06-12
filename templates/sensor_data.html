@@ -43,7 +43,6 @@
     <h1>Sensor Data</h1>
     <table>
         <tr>
-            <th>Timestamp</th>
             <th>Topic</th>
             <th>Temperature</th>
             <th>Humidity</th>
@@ -52,19 +51,20 @@
             <th>Motion</th>
             <th>State</th>
             <th>Sleep State</th>
+            <th>Timestamp</th>
         </tr>
-        {% for row in data %}
-        <tr>
-            <td>{{ row[0] }}</td>
-            <td>{{ row[1] }} °C</td>
-            <td>{{ row[2] }} %</td>
-            <td>{{ row[3] }} V</td>
-            <td>{{ row[4] }}</td>
-            <td>{{ row[5] }}</td>
-            <td>{{ row[6] }}</td>
-            <td>{{ row[7] }}</td>
-            <td>{{ row[8] }}</td>
-        </tr>
+        {% for row in data[-10:] %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }} °C</td>
+                <td>{{ row[2] }} %</td>
+                <td>{{ row[3] }} V</td>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[5] }}</td>
+                <td>{{ row[6] }}</td>
+                <td>{{ row[7] }}</td>
+                <td>{{ row[8] }}</td>
+            </tr>
         {% endfor %}
     </table>
 </body>
