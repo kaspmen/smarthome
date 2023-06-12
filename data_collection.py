@@ -10,7 +10,7 @@ load_dotenv()
 mqtt_broker = os.getenv('MQTT_BROKER_ADDRESS')
 port_one = os.getenv('MQTT_PORT_ONE')
 port_two = os.getenv('MQTT_PORT_TWO')
-mqtt_topics = ["Window_Sensor", "Door_Sensor"]
+mqtt_topics = ["Window_Sensor", "Door_Sensor", "Stairs_Sensor"]
 
 # SQLite database file
 database_file = "sensor_data.db"
